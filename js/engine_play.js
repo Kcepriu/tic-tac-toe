@@ -317,10 +317,16 @@ export default class EnginePlay extends Thinker {
   }
 
   getPositionFix() {
-    if (this.getField(1) && this.getField(5) && this.getField(5)) return 7;
-    if (this.getField(3) && this.getField(5) && this.getField(4)) return 1;
-    if (this.getField(9) && this.getField(5) && this.getField(2)) return 3;
-    if (this.getField(7) && this.getField(5) && this.getField(6)) return 9;
+    // console.log(this.filed);
+
+    if (this.getField(1) && this.getField(5) && this.getField(8)) return 7;
+    if (this.getField(1) && this.getField(5) && this.getField(6)) return 3;
+
+    if (this.getField(2) && this.getField(5) && this.getField(7)) return 1;
+    if (this.getField(2) && this.getField(5) && this.getField(9)) return 3;
+
+    if (this.getField(2) && this.getField(4) && this.getField(5)) return 1;
+    if (this.getField(2) && this.getField(5) && this.getField(6)) return 3;
   }
 
   //Треба знайти напрямок в якому сума елементів дорівнює якомусь числу
