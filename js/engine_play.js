@@ -295,6 +295,8 @@ export default class EnginePlay extends Thinker {
       }
     }
 
+    // console.log(12131434);
+
     return this.getBestMove();
     //! Шукати варіанти
   }
@@ -308,8 +310,8 @@ export default class EnginePlay extends Thinker {
   }
   getPositionCross() {
     if (
-      (this.getField(1) && this.getField(9)) ||
-      (this.getField(3) && this.getField(7))
+      (this.getField(1) && this.getField(9) && this.getField(5) === 4) ||
+      (this.getField(3) && this.getField(7) && this.getField(5) === 4)
     ) {
       const freeField = this.getFreeField([2, 4, 6, 8]);
       return freeField;
@@ -327,6 +329,8 @@ export default class EnginePlay extends Thinker {
 
     if (this.getField(2) && this.getField(4) && this.getField(5)) return 1;
     if (this.getField(2) && this.getField(5) && this.getField(6)) return 3;
+
+    if (this.getField(1) && this.getField(5) && this.getField(9)) return 3;
   }
 
   //Треба знайти напрямок в якому сума елементів дорівнює якомусь числу
