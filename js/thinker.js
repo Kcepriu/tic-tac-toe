@@ -17,7 +17,6 @@ export default class Thinker {
 
       this.treeAllResult.numberField = step.numberField;
     }
-    // console.log(this.treeAllResult);
   }
 
   getElementWinner() {
@@ -79,7 +78,7 @@ export default class Thinker {
     //Перерірити чи не перемога когось
     this.filed = [...stepPrev.startArray];
 
-    const resultGame = this.isEndGame();
+    const resultGame = this.isEndGame(false);
 
     if (resultGame) {
       if (resultGame.result === 'draw') {
@@ -146,6 +145,7 @@ export default class Thinker {
 
   setCurentTreeBranch() {
     const key = this.getKey(this.filed);
+
     this.curentTreeBranch = this.curentTreeBranch[key];
     if (!this.curentTreeBranch) {
       throw 'Error result tree ' + key;

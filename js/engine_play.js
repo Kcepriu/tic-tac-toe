@@ -16,6 +16,12 @@ export default class EnginePlay extends Thinker {
       [3, 5, 7],
     ],
   };
+  #ARRAY_TRANSFORMATION = [
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    [0, 3, 6, 9, 2, 5, 8, 1, 4, 7],
+    [0, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+    [0, 7, 4, 1, 8, 5, 2, 9, 6, 3],
+  ];
 
   constructor() {
     super();
@@ -41,6 +47,7 @@ export default class EnginePlay extends Thinker {
     if (this.treeAllResult) {
       this.curentTreeBranch = this.treeAllResult;
     }
+    this.curentNumberTableTransformation = -1;
   }
 
   stopGame() {
@@ -63,6 +70,8 @@ export default class EnginePlay extends Thinker {
     //Якщо це перший крок то дізнатися номер таблиці перекодування
     //Якщо ні, то застосувати таблицю перекодування
 
+    numberField = this.getTransmormationNumber(numberField);
+
     if (this.getField(numberField)) {
       return;
     }
@@ -83,17 +92,14 @@ export default class EnginePlay extends Thinker {
     }
   }
 
-  isEndGame() {
+  isEndGame(showWonField = true) {
     //Треба повернути результат.
     //result - won draw
     //humanWon: true
 
-    const winer = this.isWinner();
+    const winer = this.isWinner(showWonField);
 
     if (winer) {
-      // console.log(this.filed);
-      // console.log('🚀 ~ winer', winer);
-
       return {
         result: 'won',
         humanWon: winer.won === 'human',
@@ -111,14 +117,21 @@ export default class EnginePlay extends Thinker {
   }
 
   nextStepComputer() {
-    const numberField = this.getStepComputer();
-    //TODO Треба  правильно порахувати номер поля
-    //Якщо це перший крок то дізнатися номер таблиці перекодування
-    //Якщо ні, то застосувати таблицю перекодування
+    let numberField = this.getStepComputer();
+
+    if (this.numberStepComputer === 1) {
+      this.getTransmormationNumber(numberField);
+    }
 
     this.setField(numberField, 4);
     //Отут походив комп.ютер
     this.setCurentTreeBranch();
+
+    //TODO Треба  правильно порахувати номер поля
+    //Якщо це перший крок то дізнатися номер таблиці перекодування
+    //Якщо ні, то застосувати таблицю перекодування
+
+    numberField = this.getFromTransmormationToNumber(numberField);
 
     return {
       number: numberField,
@@ -164,7 +177,7 @@ export default class EnginePlay extends Thinker {
     }
   }
 
-  isWinner() {
+  isWinner(showWonField) {
     const dimension = ['c', 'r', 'd'];
 
     for (let index = 0; index < 3; index++) {
@@ -172,11 +185,17 @@ export default class EnginePlay extends Thinker {
         const sumDimension = this.getSumDimension(namen, index);
 
         if (sumDimension === 3 || sumDimension === 12) {
+          const wonField = showWonField
+            ? this.getNumberWinerField(namen, index).map(element => {
+                return this.getFromTransmormationToNumber(element);
+              })
+            : [];
+
           return {
             won: sumDimension === 3 ? 'human' : 'computer',
             dimension: namen,
             number: index,
-            wonField: this.getNumberWinerField(namen, index),
+            wonField: wonField,
           };
         }
       }
@@ -319,5 +338,44 @@ export default class EnginePlay extends Thinker {
     return this.findEmptyFieldForDirection(direction);
   }
 
-  //! OLD
+  getTransmormationNumber(number) {
+    const numberField = Number(number);
+
+    if (this.curentNumberTableTransformation === -1) {
+      this.curentNumberTableTransformation =
+        this.getCurentNumberTableTransformation(numberField);
+    }
+
+    return this.#ARRAY_TRANSFORMATION[
+      this.curentNumberTableTransformation
+    ].indexOf(numberField);
+  }
+
+  getFromTransmormationToNumber(number) {
+    const numberField = Number(number);
+
+    return this.#ARRAY_TRANSFORMATION[this.curentNumberTableTransformation][
+      numberField
+    ];
+  }
+
+  getCurentNumberTableTransformation(number) {
+    switch (number) {
+      case 3:
+        return 1;
+      case 6:
+        return 1;
+      case 9:
+        return 2;
+      case 8:
+        return 2;
+      case 7:
+        return 3;
+      case 4:
+        return 3;
+
+      default:
+        return 0;
+    }
+  }
 }

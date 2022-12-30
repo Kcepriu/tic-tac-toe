@@ -183,14 +183,16 @@ class TicTacToe {
   showMessage(resultGame) {
     //TODO
     if (resultGame.result === 'draw') {
-      console.log('Нічия');
+      // console.log('Нічия');
+      Notiflix.Report.info('Нічия', '', 'Okay');
     } else if (resultGame.humanWon) {
       this.showWin(resultGame);
 
-      console.log('Ви виграли.', resultGame.dimension, resultGame.number);
+      Notiflix.Report.success('Перемога!!', '', 'Okay');
+      // console.log('Ви виграли.', resultGame.dimension, resultGame.number);
     } else {
       this.showWin(resultGame);
-
+      Notiflix.Report.failure('Ви програли.', '', 'Okay');
       console.log('Ви програли.', resultGame.dimension, resultGame.number);
     }
   }
@@ -206,10 +208,6 @@ class TicTacToe {
 
   getFieldOfNum(numberField) {
     return this.gameField.querySelector(`[data-number="${numberField}"]`);
-  }
-
-  testArr() {
-    console.log('TEST');
   }
 }
 
