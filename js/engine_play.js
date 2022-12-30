@@ -284,7 +284,12 @@ export default class EnginePlay extends Thinker {
 
     // * 6 Якщо стоять в кутах, то ставимо у вільний хрест
     if (this.humanPlayX && this.numberStepComputer === 2) {
-      const positionCross = this.getPositionCross();
+      let positionCross = this.getPositionCross();
+      if (positionCross) {
+        return positionCross;
+      }
+
+      positionCross = this.getPositionFix();
       if (positionCross) {
         return positionCross;
       }
@@ -309,6 +314,13 @@ export default class EnginePlay extends Thinker {
       const freeField = this.getFreeField([2, 4, 6, 8]);
       return freeField;
     }
+  }
+
+  getPositionFix() {
+    if (this.getField(1) && this.getField(5) && this.getField(5)) return 7;
+    if (this.getField(3) && this.getField(5) && this.getField(4)) return 1;
+    if (this.getField(9) && this.getField(5) && this.getField(2)) return 3;
+    if (this.getField(7) && this.getField(5) && this.getField(6)) return 9;
   }
 
   //Треба знайти напрямок в якому сума елементів дорівнює якомусь числу
