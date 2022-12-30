@@ -144,6 +144,8 @@ export default class Thinker {
   }
 
   setCurentTreeBranch() {
+    // console.log(this.curentTreeBranch);
+
     const key = this.getKey(this.filed);
 
     this.curentTreeBranch = this.curentTreeBranch[key];

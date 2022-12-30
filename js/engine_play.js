@@ -282,6 +282,14 @@ export default class EnginePlay extends Thinker {
       return numberField;
     }
 
+    // * 6 Якщо стоять в кутах, то ставимо у вільний хрест
+    if (this.humanPlayX && this.numberStepComputer === 2) {
+      const positionCross = this.getPositionCross();
+      if (positionCross) {
+        return positionCross;
+      }
+    }
+
     return this.getBestMove();
     //! Шукати варіанти
   }
@@ -291,6 +299,15 @@ export default class EnginePlay extends Thinker {
       if (!this.getField(number)) {
         return number;
       }
+    }
+  }
+  getPositionCross() {
+    if (
+      (this.getField(1) && this.getField(9)) ||
+      (this.getField(3) && this.getField(7))
+    ) {
+      const freeField = this.getFreeField([2, 4, 6, 8]);
+      return freeField;
     }
   }
 
