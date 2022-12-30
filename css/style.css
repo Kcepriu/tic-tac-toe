@@ -112,3 +112,11 @@
   margin-left: auto;
   margin-right: auto;
 }
+
+.class_win {
+  background-color: darkseagreen;
+}
+
+.class_lose {
+  background-color: darksalmon;
+}

@@ -1,9 +1,9 @@
 import EnginePlay from './engine_play.js';
 
 class TicTacToe {
-  #MARK = {
-    x: 'X',
-    o: 'O',
+  #CLASS_WIN = {
+    win: 'class_win',
+    lose: 'class_lose',
   };
 
   constructor(className = 'game-name') {
@@ -116,7 +116,11 @@ class TicTacToe {
   cleanField() {
     const fields = this.gameField.querySelectorAll('li');
 
-    fields.forEach(element => this.writeMark(element, ''));
+    fields.forEach(element => {
+      this.writeMark(element, '');
+      element.classList.remove(this.#CLASS_WIN.win);
+      element.classList.remove(this.#CLASS_WIN.lose);
+    });
   }
 
   addAtributeToObject(object, atribute) {
@@ -130,6 +134,7 @@ class TicTacToe {
   // ! Гра
   nextHumansStep(field) {
     const mark = this.game.setMarkToField(field.dataset.number);
+
     if (!mark) {
       return;
     }
@@ -137,7 +142,8 @@ class TicTacToe {
     this.writeMark(field, mark);
 
     //Перевірити чи не виграв
-    const resultGame = this.game.isEndGame({ human: true });
+    const resultGame = this.game.isEndGame();
+
     if (resultGame) {
       this.endGame(resultGame);
       return;
@@ -155,7 +161,7 @@ class TicTacToe {
     this.writeMark(this.getFieldOfNum(resultStep.number), resultStep.mark);
 
     //Перевірити чи не виграв
-    const resultGame = this.game.isEndGame({ human: false });
+    const resultGame = this.game.isEndGame();
     if (resultGame) {
       this.endGame(resultGame);
       return;
@@ -179,14 +185,31 @@ class TicTacToe {
     if (resultGame.result === 'draw') {
       console.log('Нічия');
     } else if (resultGame.humanWon) {
-      console.log('Ви виграли.');
+      this.showWin(resultGame);
+
+      console.log('Ви виграли.', resultGame.dimension, resultGame.number);
     } else {
-      console.log('Ви програли.');
+      this.showWin(resultGame);
+
+      console.log('Ви програли.', resultGame.dimension, resultGame.number);
     }
+  }
+
+  showWin(resultGame) {
+    resultGame.wonField.forEach(numberField => {
+      const field = this.getFieldOfNum(numberField);
+      field.classList.add(
+        resultGame.humanWon ? this.#CLASS_WIN.win : this.#CLASS_WIN.lose,
+      );
+    });
   }
 
   getFieldOfNum(numberField) {
     return this.gameField.querySelector(`[data-number="${numberField}"]`);
+  }
+
+  testArr() {
+    console.log('TEST');
   }
 }
 
