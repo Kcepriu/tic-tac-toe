@@ -20,8 +20,13 @@ class TicTacToe {
 
     this.gameField = this.findObject('.game-name__fields');
 
+    this.onClickResetBind = this.onClickReset.bind(this);
+
     // * Initialization
     this.initializationEvents();
+    this.countWinX = 0;
+    this.countWinO = 0;
+    this.refrestButtons();
   }
 
   findObject(className) {
@@ -65,6 +70,8 @@ class TicTacToe {
   }
 
   onClickReset(event) {
+    this.gameField.removeEventListener('click', this.onClickResetBind);
+
     this.game.stopGame();
 
     //Clear field
@@ -131,6 +138,11 @@ class TicTacToe {
     object.removeAttribute(atribute);
   }
 
+  refrestButtons() {
+    this.btnPlayX.textContent = `X: ${this.countWinX}`;
+    this.btnPlay0.textContent = `O: ${this.countWinO}`;
+  }
+
   // ! Гра
   nextHumansStep(field) {
     const mark = this.game.setMarkToField(field.dataset.number);
@@ -155,6 +167,7 @@ class TicTacToe {
 
   //! Хід компʼютера
   nextAutoStep() {
+    this.showPause();
     this.game.nextMoveHuman = false;
 
     const resultStep = this.game.nextStepComputer();
@@ -178,23 +191,30 @@ class TicTacToe {
     this.game.nextMoveHuman = false;
     //ВИвести повідомлення resultGame
     this.showMessage(resultGame);
+
+    this.gameField.addEventListener('click', this.onClickResetBind);
   }
 
   showMessage(resultGame) {
-    //TODO
     if (resultGame.result === 'draw') {
-      // console.log('Нічия');
       Notiflix.Report.info('Нічия', '', 'Okay');
+
+      // console.log('Нічия');
     } else if (resultGame.humanWon) {
       this.showWin(resultGame);
 
       Notiflix.Report.success('Перемога!!', '', 'Okay');
+      this.countWinX += this.game.humanPlayX ? 1 : 0;
+
       // console.log('Ви виграли.', resultGame.dimension, resultGame.number);
     } else {
       this.showWin(resultGame);
       Notiflix.Report.failure('Ви програли.', '', 'Okay');
-      console.log('Ви програли.', resultGame.dimension, resultGame.number);
+      this.countWinO += this.game.humanPlayX ? 1 : 0;
+
+      // console.log('Ви програли.', resultGame.dimension, resultGame.number);
     }
+    this.refrestButtons();
   }
 
   showWin(resultGame) {
@@ -209,8 +229,22 @@ class TicTacToe {
   getFieldOfNum(numberField) {
     return this.gameField.querySelector(`[data-number="${numberField}"]`);
   }
+
+  showPause() {
+    return;
+
+    Notiflix.Loading.init({
+      backgroundColor: 'rgba(0,0,0,0.5)',
+      // svgColor: '#fff',
+      clickToClose: false,
+    });
+
+    Notiflix.Loading.pulse();
+    Notiflix.Loading.remove(2000);
+  }
 }
 
 // ! Start script
 
 const gameTicTacToe = new TicTacToe('game-name');
+// const gameTicTacToeSecond = new TicTacToe('game-name-second');

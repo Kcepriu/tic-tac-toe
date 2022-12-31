@@ -7,7 +7,8 @@
   outline: solid 1px red;
 } */
 
-.game-name {
+.game-name,
+.game-name-second {
   width: var(--size-field);
   margin-left: auto;
   margin-right: auto;

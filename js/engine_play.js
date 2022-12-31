@@ -48,6 +48,7 @@ export default class EnginePlay extends Thinker {
       this.curentTreeBranch = this.treeAllResult;
     }
     this.curentNumberTableTransformation = -1;
+    this.isGiveIn = Math.random() > 0.8;
   }
 
   stopGame() {
@@ -282,8 +283,13 @@ export default class EnginePlay extends Thinker {
       return numberField;
     }
 
+    // // * 5.1 Піддатися
+    // if (this.isGiveIn && this.numberStepComputer === 2) {
+    //   return this.getRandomStep();
+    // }
+
     // * 6 Якщо стоять в кутах, то ставимо у вільний хрест
-    if (this.humanPlayX && this.numberStepComputer === 2) {
+    if (this.humanPlayX && this.numberStepComputer === 2 && !this.isGiveIn) {
       let positionCross = this.getPositionCross();
       if (positionCross) {
         return positionCross;
@@ -294,8 +300,6 @@ export default class EnginePlay extends Thinker {
         return positionCross;
       }
     }
-
-    // console.log(12131434);
 
     return this.getBestMove();
     //! Шукати варіанти
@@ -319,8 +323,6 @@ export default class EnginePlay extends Thinker {
   }
 
   getPositionFix() {
-    // console.log(this.filed);
-
     if (this.getField(1) && this.getField(5) && this.getField(8)) return 7;
     if (this.getField(1) && this.getField(5) && this.getField(6)) return 3;
 

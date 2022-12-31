@@ -144,8 +144,6 @@ export default class Thinker {
   }
 
   setCurentTreeBranch() {
-    // console.log(this.curentTreeBranch);
-
     const key = this.getKey(this.filed);
 
     this.curentTreeBranch = this.curentTreeBranch[key];
@@ -182,6 +180,7 @@ export default class Thinker {
       }
 
       arrayVariant.push(value);
+      if (this.isGiveIn) continue;
 
       const [newChanceCurentPlayer, newChanceEnemy] =
         this.getChansePlayer(value);
@@ -199,6 +198,7 @@ export default class Thinker {
 
     if (numberField === null) {
       numberField = this.getRandomField(arrayVariant);
+      /e.log(numberField);
     }
 
     return numberField;
@@ -206,10 +206,10 @@ export default class Thinker {
   getRandomField(arrayVariant) {
     const number = Math.floor(Math.random() * arrayVariant.length);
 
-    return arrayVariant[number].numberFiled;
+    return arrayVariant[number].numberField;
   }
 
-  getRandomStep__() {
+  getRandomStep() {
     let result = -1;
     while (result < 0) {
       result = Math.floor(Math.random() * 9) + 1;
