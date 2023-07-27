@@ -198,21 +198,15 @@ class TicTacToe {
   showMessage(resultGame) {
     if (resultGame.result === 'draw') {
       Notiflix.Report.info('Нічия', '', 'Okay');
-
-      // console.log('Нічия');
     } else if (resultGame.humanWon) {
       this.showWin(resultGame);
 
       Notiflix.Report.success('Перемога!!', '', 'Okay');
       this.countWinX += this.game.humanPlayX ? 1 : 0;
-
-      // console.log('Ви виграли.', resultGame.dimension, resultGame.number);
     } else {
       this.showWin(resultGame);
       Notiflix.Report.failure('Ви програли.', '', 'Okay');
       this.countWinO += this.game.humanPlayX ? 1 : 0;
-
-      // console.log('Ви програли.', resultGame.dimension, resultGame.number);
     }
     this.refrestButtons();
   }
@@ -235,7 +229,6 @@ class TicTacToe {
 
     Notiflix.Loading.init({
       backgroundColor: 'rgba(0,0,0,0.5)',
-      // svgColor: '#fff',
       clickToClose: false,
     });
 
@@ -244,7 +237,4 @@ class TicTacToe {
   }
 }
 
-// ! Start script
-
 const gameTicTacToe = new TicTacToe('game-name');
-// const gameTicTacToeSecond = new TicTacToe('game-name-second');
