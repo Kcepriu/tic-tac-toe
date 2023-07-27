@@ -197,8 +197,7 @@ export default class Thinker {
     }
 
     if (numberField === null) {
-      numberField = this.getRandomField(arrayVariant);
-      /e.log(numberField);
+      numberField = this.getRandomField(arrayVariant);      
     }
 
     return numberField;
